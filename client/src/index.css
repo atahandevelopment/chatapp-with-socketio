@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-layout {
+    background-color:#e2ffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.login-layout {
+    background-color: #faffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
