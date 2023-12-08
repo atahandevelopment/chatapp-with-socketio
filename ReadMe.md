@@ -35,4 +35,4 @@ Bilgisayarınıza Docker kurun;
  1. `npm install` komutu ile proje paketlerini yükleyin.
  2. `npm run dev` komutu ile projeyi ayağa kaldırın.
 
-    # NOT: Uygulamanın düzgün çalışabilmesi için Backend'in ayağa kaldırılması ve gerekmektedir.
+    # NOT: Uygulamanın düzgün çalışabilmesi için Backend'in ayağa kaldırılması gerekmektedir.
