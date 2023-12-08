@@ -14,17 +14,18 @@ const accessToken = Cookies.get('access');
 const ApiClient = axios.create({
   baseURL: "http://localhost:5000/api/v1" ,
   headers: {
-    common: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-  },
+    "Authorization": "Bearer " + accessToken,
+    "Content-Type": "application/json"
+  }
 });
 
 ApiClient.interceptors.request.use(
-  //@ts-expect-error
   (config: AxiosRequestConfig) => {
-    return config;
+    const updatedConfig = { ...config };
+    if (accessToken) {
+      updatedConfig.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return updatedConfig;
   },
   (error: AxiosError) => {
     return Promise.reject(error);

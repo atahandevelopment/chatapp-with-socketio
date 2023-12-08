@@ -70,19 +70,22 @@ export default function Sidebar ({handleMenuClick, socket, selectedTab, setSelec
       }, [socket, currentUser]);
 
     useEffect(() => {
-        UsersService()
+      const accessToken = Cookies.get('access');
+      if( accessToken ) {
+        UsersService(accessToken)
             .then((res: { data: { data: Users[]} }) => {
                 setUsers(res.data.data);
             }).catch((err: Error) => {
                 errorToastMessage(err.message, 1500, 'top-right');
             });
         //@ts-expect-error
-        AllRooms()
+        AllRooms(null,accessToken)
             .then((res) => {
                 setRoomsList(res.data.data);
             }).catch((err: Error) => {
               errorToastMessage(err.message, 1500, 'top-right');
             });
+          }
       }, []);
 
       const showModal = () => {

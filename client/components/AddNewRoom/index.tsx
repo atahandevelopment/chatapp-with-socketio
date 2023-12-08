@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Input, Modal } from 'antd';
 import { ModalProps } from '../../types/modalprops';
 import { AddRoomService } from '../../services/rooms';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 
 
 const AddNewRoom = ({isModalOpen, setIsModalOpen}: ModalProps) => {
     const [roomName, setRoomName ] = useState<string>('');
 
   const handleOk = async () => {
-    const response = await AddRoomService({name: roomName});
+    //@ts-expect-error
+    const response = await AddRoomService({name: roomName}, Cookies.get('access'));
     if( response.status === 201) {
         setIsModalOpen(false);
     }

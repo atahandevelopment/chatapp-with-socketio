@@ -10,7 +10,7 @@ const App = ({message, userName}: MessageCardProps) => {
               >
           <Card.Meta
             avatar={!message?.fromSelf && <Avatar>{userName?.charAt(0)}</Avatar>}
-            title={userName}
+            title={ userName}
             description={message?.message}
           />
         </Card>

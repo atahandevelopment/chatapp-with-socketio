@@ -19,13 +19,13 @@ export default function Login () {
                 const response = await LoginService(data);
 
                 if( response.status === 200) {
+                            Cookies.set('access', response.data.access);
+                            Cookies.set('refresh', response.data.refresh);
                     //@ts-expect-error
                     const { userId } = jwtDecode(response.data.access);
                     if ( userId ) {
-                        const user = await getMe(userId);
+                        const user = await getMe(userId, response.data.access);
                         if ( user.status === 200) {
-                            Cookies.set('access', response.data.access);
-                            Cookies.set('refresh', response.data.refresh);
                             Cookies.set('info', JSON.stringify(user.data.data));
                             succesToastMessage('Giriş yapılıyor', 1500, 'top-right');
                             setTimeout(() => {

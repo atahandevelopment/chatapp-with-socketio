@@ -25,18 +25,21 @@ export default function ContentBox ({ messages, selectedTab, scrollRef, selected
   useEffect(() => {
     //@ts-expect-error
     const data = JSON.parse(Cookies.get('info'));
+    const accessToken = Cookies.get('access')
     if ( selectedTab === '1') {
-      MessageListService(data?._id, selectedChat?._id).then((res) => {
+      //@ts-expect-error
+      MessageListService(data?._id, selectedChat?._id, accessToken ).then((res) => {
         setMessages(res.data.getMessages);
       })
     } else {
-      RoomMessageListService(data?._id, selectedChat?._id).then((res) => {
+      //@ts-expect-error
+      RoomMessageListService(data?._id, selectedChat?._id, accessToken).then((res) => {
         setMessages(res.data.getMessages);
       });
     }
     
   }, [selectedChat, selectedTab]);
-
+  
   useEffect(() => {
     const getCurrentChat = async () => {
       if (selectedChat) {
@@ -61,7 +64,7 @@ export default function ContentBox ({ messages, selectedTab, scrollRef, selected
                       <div className="content ">
                         <MessageCard 
                             message = { message } 
-                            userName={selectedTab==='2' ? message?.user?.name : selectedChat?.fullname}
+                            userName={selectedTab ==='2' ? message?.user?.name : selectedChat?.fullname}
                         />
                       </div>
                     </div>

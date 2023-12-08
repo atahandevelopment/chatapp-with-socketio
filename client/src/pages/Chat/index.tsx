@@ -29,7 +29,6 @@ const Chat: React.FC = () => {
   const [messages, setMessages ] = useState<ArrivalMessage[]>([]);
   const [arrivalMessage, setArrivalMessage] = useState<ArrivalMessage>();
   const [msg, setMsg] = useState<string>("");
-
 // Oturum açan kullanıcının bilgilerini Cookie'den çekiyorum ve sessionO
   useEffect(() => {
     const userInfo = Cookies.get('info');
@@ -69,16 +68,17 @@ const Chat: React.FC = () => {
       ...(selectedTab === '2' ? {roomId: selectedChat?._id} : '')
     }
      //@ts-expect-error
-    await MessagePostService(dbMessageData);
+    await MessagePostService(dbMessageData, Cookies.get('access'));
 
     const msgs: ArrivalMessage[] = [...messages];
     msgs.push({
       fromSelf: true, message: msg,
-      //@ts-expect-error
-      user: {
-        name: '',
-        _id: ''
-      }
+      user:{ 
+          //@ts-expect-error
+          name: currentUser?.fullname,
+          //@ts-expect-error
+          _id: currentUser?._id
+        }
     });
     setMessages(msgs);
   };
@@ -98,10 +98,11 @@ const Chat: React.FC = () => {
           messageNotification(msg, fromName);
         }
         //@ts-expect-error
-        setArrivalMessage({ fromSelf: false, message: msg });
+        setArrivalMessage({ fromSelf: false, message: msg, user: { name: fromName } });
+        
       });
     }
-  }, [currentUser?.fullname, socket]);
+  }, [socket]);
 
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);

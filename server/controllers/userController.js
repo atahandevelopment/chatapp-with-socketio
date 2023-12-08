@@ -59,8 +59,8 @@ export const signIn = async (req, res) => {
             return res.status(400).json({ message: 'Yanlış şifre' });
         } else {
             const userId = user.id;
-            const accessToken = jwt.sign({userId}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '50m' });
-            const refreshToken = jwt.sign({userId}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '50m'});
+            const accessToken = jwt.sign({userId}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
+            const refreshToken = jwt.sign({userId}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '24h'});
 
             return res.status(200).json({ 
                 success: true, 
@@ -93,7 +93,7 @@ export const allUsers = async (req, res) => {
        if (!decodedToken) {
            return res.status(403).json({ message: 'Invalid access token' });
        }
-       
+       //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZkZGQyYTFkMzg1NTg4YzY3YWIzZWIiLCJpYXQiOjE3MDIwNTQ5NTMsImV4cCI6MTcwMjA1Nzk1M30.suqXZoHE9PZPtClb6WdLqcCdbROToPu2y2WuTnIUKdY
         const users = await User.find({}, { password: 0 });
         res.status(200).json({ success: true, data: users });
     } catch (error) {
@@ -116,7 +116,7 @@ export const getMe = async (req, res) => {
            return res.status(403).json({ message: 'Access token required' });
        }
        
-       const decodedToken = verifyJwtToken(accessToken);
+       const decodedToken = verifyJwtToken(accessToken)
        if (!decodedToken) {
            return res.status(403).json({ message: 'Invalid access token' });
        }
