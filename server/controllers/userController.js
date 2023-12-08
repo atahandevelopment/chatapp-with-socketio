@@ -26,10 +26,11 @@ export const signUp = async (req, res) => {
             email,
             password: hashedPass
         });
-
-
+        
+        // kullanıcının password'ünü response'tan çıkarıyoruz
+        const userWithoutPassword = { ...createUser.toObject(), password: undefined };
         // success olduğunda response olarak dönüyorum.
-        return res.status(201).json({ success: true, message:'Kullanıcı Oluşturuldu.', data: createUser});
+        return res.status(201).json({ success: true, message:'Kullanıcı Oluşturuldu.', data: userWithoutPassword});
     } catch (error) {
         //beklenmeyen bir hata olduğunda dönülen response
         return res.status(500).json({ error: error.message });
@@ -93,7 +94,7 @@ export const allUsers = async (req, res) => {
            return res.status(403).json({ message: 'Invalid access token' });
        }
        
-        const users = await User.find();
+        const users = await User.find({}, { password: 0 });
         res.status(200).json({ success: true, data: users });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -119,7 +120,7 @@ export const getMe = async (req, res) => {
        if (!decodedToken) {
            return res.status(403).json({ message: 'Invalid access token' });
        }
-        const user = await User.findOne({ _id: userId });
+        const user = await User.findOne({ _id: userId }, { password: 0 });
         return res.status(200).json({ success: true, data: user });
     } catch (error) {
         return res.status(500).json({ error: error.message });
